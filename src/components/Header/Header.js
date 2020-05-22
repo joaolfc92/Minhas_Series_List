@@ -38,6 +38,12 @@ const Header = () => {
 
                             </NavItem>
 
+                            <NavItem  >
+
+                                      <NavLink tag={Link} to="/series"> Séries</NavLink>
+
+                            </NavItem>
+
                             
 
                       </Nav>
