@@ -7,22 +7,12 @@ const InfoSerie =  ({match}) => {
 
     const [form, setForm] = useState({})
     const [success, setSuccess] = useState(false)
-    const onChange = field =>  evento => {
-        setForm({
-            ...form,
-            [field]:evento.target.value
-        })
-    }
-
-
-
     const [mode, setMode] = useState('EDIT')
     const [genres, setGenres] = useState([])
+    const [genreId, setGenreid] = useState('')
+    const [data, setData] = useState('')
 
 
-
-
-    const [data, setData] = useState({})
 
     useEffect(()=>{
         axios
@@ -39,13 +29,59 @@ const InfoSerie =  ({match}) => {
         .get('/api/genres')
         .then( res => {
             setGenres(res.data.data)
+
+            const  genres = res.data.data
+
+            const encontrado = genres.find(value => data.genre == value.name)
+
+
+            if(encontrado  ){
+                setGenreid(encontrado.id)
+            }
+
         })
-    },[])
+    },[data])
+
+
+
+
+
+
+
+    const onChange = field =>  evento => {
+        setForm({
+            ...form,
+            [field]:evento.target.value
+        })
+    }
+
+
+
+    
+    
+
+
+   
+
+
+
+
+    const seleciona = value => () => {
+        setForm({
+            ...form,
+            status : value
+        })
+    }
 
 
     const save = () => {
         axios
-        .put('/api/series/' + match.params.id, form)
+        .put('/api/series/' + match.params.id, {
+            ...form,
+            genre_id: genreId
+
+           
+        })
 
         
 
@@ -74,12 +110,7 @@ const InfoSerie =  ({match}) => {
 
     }
 
-    const seleciona = value => () => {
-        setForm({
-            ...form,
-            status : value
-        })
-    }
+ 
 
     return(
 
@@ -98,9 +129,10 @@ const InfoSerie =  ({match}) => {
                             <div className="col-8">
                                      <h1 className="font-weight-light text-light">{data.name}</h1>
                                         <div className="lead text-white">
-                                                <Badge color="success">Assistido</Badge>
-                                                <Badge color="warning">Em andamento</Badge>
-                                                <Badge color="danger">Para Assistir</Badge>
+
+                                     {data.status == 'ASSISTIDO' &&     <Badge color="success">Assistido</Badge> }
+                                     {data.status == 'EM_ANDAMENTO' &&   <Badge color="warning">Em andamento</Badge> }
+                                    {data.status == 'PARA_ASSISTIR' &&   <Badge color="danger">Para Assistir</Badge> }
                                                 Genero:{data.genre}
                                         </div>
                             </div>
@@ -144,9 +176,9 @@ const InfoSerie =  ({match}) => {
 
                 <div className="form-group">
                 <label htmlFor="genero">Generos :</label>
-                <select className="form-control" onChange={onChange('genre_id')}>
+                <select className="form-control" onChange={onChange('genre_id')} value={genreId}>
                     {genres.map(genre => 
-                            <option key={genre.id} value={genre.id} select={genre.id === form.genre}>{genre.name}</option>
+                            <option key={genre.id} value={genre.id} >{genre.name}</option>
                    )}
                 
                 </select>
