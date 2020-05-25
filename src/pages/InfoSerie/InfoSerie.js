@@ -5,9 +5,13 @@ import { Badge } from 'reactstrap'
 
 const InfoSerie =  ({match}) => {
 
-    const [form, setForm] = useState({})
+    const [form, setForm] = useState({
+        name:''
+    })
     const [success, setSuccess] = useState(false)
-    const [mode, setMode] = useState('EDIT')
+
+    
+    const [mode, setMode] = useState('INFO')
     const [genres, setGenres] = useState([])
     const [genreId, setGenreid] = useState('')
     const [data, setData] = useState('')
@@ -34,6 +38,8 @@ const InfoSerie =  ({match}) => {
 
             const encontrado = genres.find(value => data.genre == value.name)
 
+           
+
 
             if(encontrado  ){
                 setGenreid(encontrado.id)
@@ -41,6 +47,11 @@ const InfoSerie =  ({match}) => {
 
         })
     },[data])
+
+
+    const onChangeGenre = event =>  {
+        setGenreid(event.target.value)
+    }
 
 
 
@@ -57,15 +68,6 @@ const InfoSerie =  ({match}) => {
 
 
 
-    
-    
-
-
-   
-
-
-
-
     const seleciona = value => () => {
         setForm({
             ...form,
@@ -75,6 +77,7 @@ const InfoSerie =  ({match}) => {
 
 
     const save = () => {
+        console.log(form, genreId)
         axios
         .put('/api/series/' + match.params.id, {
             ...form,
@@ -133,7 +136,8 @@ const InfoSerie =  ({match}) => {
                                      {data.status == 'ASSISTIDO' &&     <Badge color="success">Assistido</Badge> }
                                      {data.status == 'EM_ANDAMENTO' &&   <Badge color="warning">Em andamento</Badge> }
                                     {data.status == 'PARA_ASSISTIR' &&   <Badge color="danger">Para Assistir</Badge> }
-                                                Genero:{data.genre}
+
+                                           <div className="mt-4">     Genero:{data.genre}  </div>
                                         </div>
                             </div>
                         </div>
@@ -142,7 +146,7 @@ const InfoSerie =  ({match}) => {
 
         </header>
 
-        <div>
+        <div className="container">
           
             <button onClick={()=> setMode('EDIT')} type="button" className="btn btn-warning mb-4">Editar</button>
         </div>
@@ -150,8 +154,8 @@ const InfoSerie =  ({match}) => {
 
         {mode === 'EDIT'  &&
         <div className="container mb-5">
-            <h3 className="mt-4 mb-4">Adicione uma nova série a sua lista de favoritos </h3>
-    <   pre>{JSON.stringify(form)}</pre>
+            <h3 className="mt-4 mb-4">Edite os dados de suas séries favoritas </h3>
+    
 
                  
                  
@@ -176,7 +180,7 @@ const InfoSerie =  ({match}) => {
 
                 <div className="form-group">
                 <label htmlFor="genero">Generos :</label>
-                <select className="form-control" onChange={onChange('genre_id')} value={genreId}>
+                <select className="form-control" onChange={onChangeGenre} value={genreId}>
                     {genres.map(genre => 
                             <option key={genre.id} value={genre.id} >{genre.name}</option>
                    )}
@@ -186,20 +190,20 @@ const InfoSerie =  ({match}) => {
 
 
                  <div className="form-check">
-                        <input className="form-check-input" type="radio" name="status" id="assistido" value="ASSITIDO"  onClick={seleciona('ASSISTIDO')}/>
+                        <input className="form-check-input" type="radio" name="status" id="assistido" value="ASSITIDO"  onChange={seleciona('ASSISTIDO')}/>
                             <label className="form-check-label" htmlFor="assistido">
                                 Assistido
                             </label>
                  </div>
                 <div className="form-check">
-                        <input className="form-check-input" type="radio" name="status" id="emAndamento" value="EM_ANDAMENTO" onClick={seleciona('EM_ANDAMENTO')}/>
+                        <input className="form-check-input" type="radio" name="status" id="emAndamento" value="EM_ANDAMENTO" onChange={seleciona('EM_ANDAMENTO')}/>
                         <label className="form-check-label" htmlFor="emAndamento">
                             Em Andamento
                         </label>
                 </div>
 
                 <div className="form-check">
-                        <input className="form-check-input" type="radio" name="status" id="paraAssistir" value="PARA_ASSISTIR" onClick={seleciona('PARA_ASSISTIR')}/>
+                        <input className="form-check-input" type="radio" name="status" id="paraAssistir" value="PARA_ASSISTIR" onChange={seleciona('PARA_ASSISTIR')}/>
                         <label className="form-check-label" htmlFor="paraAssistir">
                             Para Asistir
                         </label>

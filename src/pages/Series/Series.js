@@ -38,7 +38,7 @@ const Series = () => {
 
                 <td><Link to={"/series/" + record.id}>  <button type="button" 
                     className="btn btn-outline-warning" 
-                    >Editar
+                    >Info
                     </button> </Link>  </td>    
             </tr>
         )
