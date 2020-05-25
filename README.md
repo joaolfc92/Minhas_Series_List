@@ -1,4 +1,12 @@
 
+![Captura de tela de 2020-05-25 18-05-34](https://user-images.githubusercontent.com/46541402/82843156-aa7e6980-9eb2-11ea-8875-a1165fce42b6.png)
+![Captura de tela de 2020-05-25 18-05-26](https://user-images.githubusercontent.com/46541402/82843159-ab170000-9eb2-11ea-945d-5228c5219b17.png)
+![screencapture-localhost-3000-series-8-2020-05-25-17_50_51](https://user-images.githubusercontent.com/46541402/82843167-b0744a80-9eb2-11ea-8313-ac0b3a0b72bf.png)
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
